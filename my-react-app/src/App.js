@@ -15,6 +15,12 @@ class Cpn extends Component {
 
 class App extends Component {
   constructor(props) {
+    /**
+     * 如果不初始化state 或不进行方法绑定，则不需要为React 组件实现构造函数。
+     * constructor中通常只做两件事情：
+     * 通过给this.state赋值对象来初始化内部的state；
+     * 为事件绑定实例(this)
+     */
     super(props);
 
     this.state = { counter: 1, isShow: true };
