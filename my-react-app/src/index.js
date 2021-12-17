@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./../src/4组件通信案例/App";
-// import "../src/4组件通信案例/style.css";
+import App from "./05-2/App";
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
