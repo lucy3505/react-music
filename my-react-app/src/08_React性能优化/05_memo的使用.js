@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent, memo } from "react";
 
-function Header() {
+const MemoHeader = memo(function Header() {
   console.log("Header");
   return <h2>header</h2>;
-}
+});
 
-class Banner extends Component {
+class Banner extends PureComponent {
   render() {
     console.log("banner render被调用");
     return <h3>banner</h3>;
@@ -24,7 +24,7 @@ function ProductList() {
   );
 }
 
-class Main extends Component {
+class Main extends PureComponent {
   render() {
     console.log("Main render被调用");
 
@@ -37,29 +37,48 @@ class Main extends Component {
   }
 }
 
-function Footer() {
+const MemoFooter = memo(function Footer() {
   console.log("Footer");
 
   return <div>footer</div>;
-}
-export default class App extends Component {
+});
+
+export default class App extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { count: 0 };
+    this.state = { count: 0, message: "hello world" };
   }
   increment() {
     this.setState({ count: this.state.count + 1 });
   }
+
+  // //可以使用PureComponent代替shouldComponentUpdate
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   // return false;
+  //   if (this.state.count !== nextState.count) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  changeText() {
+    this.setState({
+      message: "你好啊",
+    });
+  }
+
   render() {
     console.log("App render被调用");
 
     return (
       <div>
         <h2>count:{this.state.count}</h2>
+        <h2>{this.state.message}</h2>
         <button onClick={(e) => this.increment()}>+1</button>
-        <Header />
+        <button onClick={(e) => this.changeText()}>改变文本</button>
+        <MemoHeader />
         <Main />
-        <Footer />
+        <MemoFooter />
       </div>
     );
   }

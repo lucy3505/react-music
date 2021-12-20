@@ -45,21 +45,39 @@ function Footer() {
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0 };
+    this.state = { count: 0, message: "hello world" };
   }
   increment() {
     this.setState({ count: this.state.count + 1 });
   }
+
+  //可以使用PureComponent代替shouldComponentUpdate
+  shouldComponentUpdate(nextProps, nextState) {
+    // return false;
+    if (this.state.count !== nextState.count) {
+      return true;
+    }
+    return false;
+  }
+
+  changeText() {
+    this.setState({
+      message: "你好啊",
+    });
+  }
+
   render() {
     console.log("App render被调用");
 
     return (
       <div>
         <h2>count:{this.state.count}</h2>
+        <h2>{this.state.message}</h2>
         <button onClick={(e) => this.increment()}>+1</button>
-        <Header />
+        <button onClick={(e) => this.changeText()}>改变文本</button>
+        {/* <Header />
         <Main />
-        <Footer />
+        <Footer /> */}
       </div>
     );
   }
