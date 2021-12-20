@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./07_setState的使用/02_setState是异步更新";
+import App from "./08_React性能优化/02_组件嵌套的render调用";
 // import "../src/4组件通信案例/style.css";
 ReactDOM.render(
   <React.StrictMode>
