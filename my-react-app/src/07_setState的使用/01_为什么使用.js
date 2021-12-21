@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 
-export default class App extends Component {
+export default class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { counter: 0 };
@@ -8,7 +8,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <h2>当前技术：{this.state.counter}</h2>
+        <h2>当前数字：{this.state.counter}</h2>
         <button onClick={(e) => this.increment()}>+1</button>
       </div>
     );
