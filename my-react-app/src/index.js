@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./11_高阶组件的使用/06_高阶组件应用-生命周期劫持";
+import App from "./12_组件内容补充/03_fragments的使用";
+import "./css/index.css";
 
 ReactDOM.render(
   <React.StrictMode>
