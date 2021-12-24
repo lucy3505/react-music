@@ -15,8 +15,17 @@ export default class TransitionGroupDemo extends PureComponent {
         {this.state.names.map((item, index) => {
           // return <div key={index}>{item}</div>;
           return (
-            <CSSTransition key={index} timeout={300} classNames="item">
-              <div>{item}</div>
+            <CSSTransition key={`${item}`} timeout={300} classNames="item">
+              <div>
+                {item}
+                <button
+                  onClick={(e) => {
+                    this.removeItem(index);
+                  }}
+                >
+                  -
+                </button>
+              </div>
             </CSSTransition>
           );
         })}
@@ -24,11 +33,20 @@ export default class TransitionGroupDemo extends PureComponent {
       </TransitionGroup>
     );
   }
+  removeItem(index) {
+    // const newName = [...this.state.names];
+    // newName.splice(index, 1);
+    // this.setState({ names: newName });
+
+    this.setState({
+      names: this.state.names.filter((item, indexy) => index !== indexy),
+    });
+  }
 
   addNum() {
     //希望增加元素的时候有动画
     this.setState({
-      names: [...this.state.names, "ccc"],
+      names: [...this.state.names, new Date().toString()],
     });
   }
 }
