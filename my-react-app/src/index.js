@@ -2,10 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import App from "./App";
-
+// import { StoreContext } from "@/utils/context";
+import store from "store";
+import { Provider } from "react-redux";
 ReactDOM.render(
-  <React.StrictMode>
+  // <StoreContext value={store}>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
+  // </StoreContext>
+
   document.getElementById("root")
 );

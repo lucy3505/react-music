@@ -19,6 +19,8 @@ module.exports = {
   webpack: {
     alias: {
       "@": resolve("src"),
+      store: resolve("src/store"),
+      pages: resolve("src/pages"),
       components: resolve("src/components"),
     },
   },
