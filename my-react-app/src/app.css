@@ -5,3 +5,10 @@
 .link {
   padding: 10px;
 }
+.about-link-active {
+  color: green;
+  padding: 10px;
+}
+.about-link {
+  padding: 10px;
+}

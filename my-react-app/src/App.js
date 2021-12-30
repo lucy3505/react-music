@@ -8,12 +8,13 @@ import {
 } from "react-router-dom";
 import Home from "./pages/home";
 import Profile from "./pages/profile";
-import About from "./pages/about";
+import About from "./pages/about/about";
 import User from "./pages/user";
 import NoMatch from "./pages/noMatch";
 import "./app.css";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import { Culture, History, Contact, Join } from "@/pages/about/about.js";
 class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -24,6 +25,7 @@ class App extends PureComponent {
         { to: "/about", title: "关于" },
         { to: "/profile", title: "我的" },
         { to: "/user", title: "用户" },
+        { to: `/detail/${}`, title: "" },
       ],
       currentIndex: 0,
     };
@@ -34,7 +36,7 @@ class App extends PureComponent {
   }
 
   render() {
-    if (this.props.isLogin) {
+    if (!this.props.isLogin) {
       return <Navigate to="/login" />;
     }
     return (
@@ -70,10 +72,15 @@ class App extends PureComponent {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/about" element={<About />}>
+            <Route path="culture" element={<Culture />} />
+            <Route path="" element={<History />} />
+            <Route element={<Contact />} path="contact" />
+            <Route element={<Join />} path="join" />
+          </Route>
+          {/* <Route path="/profile" element={<Profile />} />
           <Route path="/user" element={<User />} />
-          <Route path="/:id" element={<NoMatch />} />
+          <Route path="/:id" element={<NoMatch />} /> */}
         </Routes>
         {/* </BrowserRouter> */}
       </div>
