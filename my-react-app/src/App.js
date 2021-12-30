@@ -25,7 +25,7 @@ class App extends PureComponent {
         { to: "/about", title: "关于" },
         { to: "/profile", title: "我的" },
         { to: "/user", title: "用户" },
-        { to: `/detail/${}`, title: "" },
+        { to: `/detail/`, title: "" },
       ],
       currentIndex: 0,
     };
