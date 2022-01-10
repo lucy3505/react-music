@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { changeLogin } from "./../store/login";
-import { Navigate } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 class Login extends PureComponent {
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class Login extends PureComponent {
         {!this.props.isLogin ? (
           <button onClick={(e) => this.handleLogin(e)}>login</button>
         ) : (
-          <Navigate to="/" />
+          <Redirect to="/" />
         )}
       </div>
     );

@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Navigate, Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { connect } from "react-redux";
 class User extends PureComponent {
   constructor(props) {
@@ -8,7 +8,7 @@ class User extends PureComponent {
   }
   render() {
     return (
-      <>{this.props.isLogin ? <div>User</div> : <Navigate to="/about" />}</>
+      <>{this.props.isLogin ? <div>User</div> : <Redirect to="/login" />}</>
     );
   }
 }

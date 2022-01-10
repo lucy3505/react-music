@@ -3,7 +3,7 @@ import {
   BrowserRouter,
   Navigate,
   Route,
-  Routes,
+  Switch,
   NavLink,
 } from "react-router-dom";
 import Home from "./pages/home";
@@ -11,21 +11,33 @@ import Profile from "./pages/profile";
 import About from "./pages/about/about";
 import User from "./pages/user";
 import NoMatch from "./pages/noMatch";
+import Detail from "./pages/detail";
+import Detail2 from "./pages/detail2";
+import Detail3 from "./pages/detail3";
 import "./app.css";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { Culture, History, Contact, Join } from "@/pages/about/about.js";
+import { renderRoutes } from "react-router-config";
+import { routes } from "./router/index";
 class App extends PureComponent {
   constructor(props) {
     super(props);
+    const id = "123";
+    const info = { name: "why", age: 12 };
     this.state = {
       isLogin: false,
       links: [
-        { to: "/", title: "首页" },
+        { to: "/", title: "首页", exact: true },
         { to: "/about", title: "关于" },
         { to: "/profile", title: "我的" },
         { to: "/user", title: "用户" },
-        { to: `/detail/`, title: "" },
+        { to: `/detail/${info}`, title: "详情" },
+        { to: `/detail2?name=why&age=18`, title: "详情2" },
+        {
+          to: { pathname: "/detail3", search: "?name=why", state: info },
+          title: "详情3",
+        },
       ],
       currentIndex: 0,
     };
@@ -36,9 +48,10 @@ class App extends PureComponent {
   }
 
   render() {
-    if (!this.props.isLogin) {
-      return <Navigate to="/login" />;
-    }
+    const id = "abc";
+    // if (!this.props.isLogin) {
+    //   return <Navigate to="/login" />;
+    // }
     return (
       <div>
         {/* <BrowserRouter> */}
@@ -64,25 +77,27 @@ class App extends PureComponent {
             //     color: isActive ? "link-active" : "",
             //   };
             // }}
-            className={({ isActive }) => (isActive ? "link-active" : "link")}
+
+            activeClassName="link-active"
+            exact={link.exact}
           >
             {link.title}
           </NavLink>
         ))}
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />}>
-            <Route path="culture" element={<Culture />} />
-            <Route path="" element={<History />} />
-            <Route element={<Contact />} path="contact" />
-            <Route element={<Join />} path="join" />
-          </Route>
-          {/* <Route path="/profile" element={<Profile />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/:id" element={<NoMatch />} /> */}
-        </Routes>
+        {/* <Switch>
+          <Route path="/" component={Home} exact />
+          <Route path="/about" component={About} />
+
+          <Route path="/profile" component={Profile} />
+          <Route path="/user" component={User} />
+          <Route path={`/detail/:id`} component={Detail} />
+          <Route path={`/detail2`} component={Detail2} />
+          <Route path={`/detail3`} component={Detail3} />
+          <Route component={NoMatch} />
+        </Switch> */}
         {/* </BrowserRouter> */}
+        {renderRoutes(routes)}
       </div>
     );
   }
