@@ -6,11 +6,19 @@ export default class Counter extends PureComponent {
   }
 
   componentDidMount() {
+    //1.修改dom
     document.title = this.state.counter;
+    //2.订阅事件
+    console.log("订阅一些事件");
+    //3.网络请求
   }
 
   componentDidUpdate() {
     document.title = this.state.counter;
+  }
+
+  componentWillUnmount() {
+    console.log("取消事件订阅");
   }
 
   render() {
