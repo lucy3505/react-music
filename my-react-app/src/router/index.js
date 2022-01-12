@@ -4,8 +4,17 @@ import YYFriend from "@/pages/friend";
 
 const routes = [
   {
-    path: "discover",
+    path: "/",
     component: YYDiscover,
+    exact: true,
+  },
+  {
+    path: "/mine",
+    component: YYMine,
+  },
+  {
+    path: "/friend",
+    component: YYFriend,
   },
 ];
 

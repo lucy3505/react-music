@@ -5,14 +5,14 @@ import routes from "./router";
 
 import YYAppHeader from "components/app-header";
 import YYAppFooter from "@/components/app-footer";
-import { HashRouter, Switch } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 export default memo(function App() {
   return (
     <div>
       <HashRouter>
         <YYAppHeader />
-        <Switch>{renderRoutes(routes)}</Switch>
+        {renderRoutes(routes)}
 
         <YYAppFooter />
       </HashRouter>
