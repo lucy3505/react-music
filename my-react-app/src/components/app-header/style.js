@@ -6,7 +6,7 @@ export const HeaderWrapper = styled.div`
 
   .content {
     height: 70px;
-    background-color: green;
+    /* background-color: green; */
 
     display: flex;
     justify-content: space-between;
@@ -35,8 +35,25 @@ export const HeaderLeft = styled.div`
       position: relative;
       a {
         display: block;
-        padding: 0 40px;
+        padding: 0 20px;
         color: #ccc;
+        text-decoration: none;
+        &:hover,
+        &.active {
+          background-color: #000;
+          color: #fff;
+        }
+        &.active .arrow {
+          background-image: url(${require("@/assets/img/sprite_01.png")});
+          display: block;
+          height: 7px;
+          width: 12px;
+          position: absolute;
+          bottom: -1px;
+          left: 50%;
+          background-position: -226px 0;
+          transform: translate(-50%, 0);
+        }
       }
 
       :last-of-type a {
@@ -46,8 +63,8 @@ export const HeaderLeft = styled.div`
           content: "";
           width: 28px;
           height: 19px;
-          background-image: url() (${require("@/assets/img/sprite_01.png")});
-          background-position: -100px 0;
+          background-image: url(${require("@/assets/img/sprite_01.png")});
+          background-position: -190px 0;
           top: 20px;
           right: -15px;
         }
@@ -56,4 +73,29 @@ export const HeaderLeft = styled.div`
   }
 `;
 
-export const HeaderRight = styled.div``;
+export const HeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  color: #ccc;
+  font-size: 12px;
+  .search {
+    width: 158px;
+    height: 32px;
+    border-radius: 16px;
+    input {
+      &::placeholder {
+        font-size: 12px;
+      }
+    }
+  }
+  .center {
+    width: 90px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border: 1px solid #666;
+    border-radius: 16px;
+    margin: 0 16px;
+    cursor: pointer;
+  }
+`;
