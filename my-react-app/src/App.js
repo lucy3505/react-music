@@ -8,6 +8,7 @@ import YYAppHeader from "components/app-header";
 import YYAppFooter from "@/components/app-footer";
 import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import PlayerBar from "./pages/player/app-player-bar";
 
 export default memo(function App() {
   return (
@@ -17,6 +18,7 @@ export default memo(function App() {
         {renderRoutes(routes)}
 
         <YYAppFooter />
+        <PlayerBar />
       </HashRouter>
     </Provider>
   );

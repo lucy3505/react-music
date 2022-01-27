@@ -4,6 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getHotRecommendAction } from "../../store/actionCreator";
 import { HotRecommendWrapper } from "./style";
 import { HOT_RECOMMEND_LIMIT } from "@/common/constants";
+import SongCover from "@/components/songs-cover";
 export default memo(function HotRecommend() {
   const dispatch = useDispatch();
 
@@ -24,10 +25,11 @@ export default memo(function HotRecommend() {
         title="热门推荐"
         keywords={["华语", "流行", "摇滚", "民谣", "电子"]}
       />
-      <div className="content">
+      <div className="recommend-list">
         {hotRecommends.map((item) => (
           <div className="" key={item.id}>
-            {item.name}
+            {/* {item.name} */}
+            <SongCover {...item} />
           </div>
         ))}
       </div>

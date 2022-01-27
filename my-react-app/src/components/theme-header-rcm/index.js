@@ -9,9 +9,9 @@ function ThemeHeaderRCM(props) {
         <div className="left">
           <h3 className="title">{title}</h3>
           <div className="keyword">
-            {keywords.map((item) => {
+            {keywords.map((item, index) => {
               return (
-                <div className="item">
+                <div className="item" key={index}>
                   <a>{item}</a>
                   <span className="divider">|</span>
                 </div>

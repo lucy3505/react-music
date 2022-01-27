@@ -7,3 +7,15 @@ export const getTopBanner = () => {
 export const getHotRecommend = (limit) => {
   return request({ url: "/personalized", params: { limit } });
 };
+
+export const getNewAlbum = (limit) => {
+  return request({ url: "/album/list", params: { limit } });
+};
+
+export const getAllTopLists = () => {
+  return request({ url: "/toplist" });
+};
+
+export const getTopListById = (id) => {
+  return request({ url: "/top/list", params: { id } });
+};
