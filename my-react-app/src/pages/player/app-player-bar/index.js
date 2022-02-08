@@ -1,10 +1,11 @@
-import { Slider } from "antd";
+import { Slider, message } from "antd";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
   getSongDetailAction,
   changeCurrentIndexAndSong,
   changeSequenceAction,
+  changeLyricIndex,
 } from "../store/actionCreators";
 
 import {
@@ -15,23 +16,27 @@ import {
 } from "./style";
 import { getSizeImage, formatDate, getPlayUrl } from "@/utils/format-utils.js";
 import { NavLink } from "react-router-dom";
+import PlayerList from "../app-player-list";
 
 export default memo(function PlayerBar() {
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isChanging, setIsChanging] = useState(false);
   const [isPlay, setIsPlay] = useState(false);
+  const [showPlayList, setShowPlayList] = useState(false);
 
   const dispatch = useDispatch();
-  const { currentSong, sequence, playList } = useSelector(
-    (state) => ({
-      currentSong: state.getIn(["player", "currentSong"]),
-      sequence: state.getIn(["player", "sequence"]),
-      playList: state.getIn(["player", "playList"]),
-    }),
-    shallowEqual
-  );
-  console.log("currentSong", currentSong);
+  const { currentSong, sequence, playList, lyricList, lyricIndex } =
+    useSelector(
+      (state) => ({
+        currentSong: state.getIn(["player", "currentSong"]),
+        sequence: state.getIn(["player", "sequence"]),
+        playList: state.getIn(["player", "playList"]),
+        lyricList: state.getIn(["player", "lyricList"]),
+        lyricIndex: state.getIn(["player", "lyricIndex"]),
+      }),
+      shallowEqual
+    );
 
   useEffect(() => {
     dispatch(getSongDetailAction(167876));
@@ -48,13 +53,34 @@ export default memo(function PlayerBar() {
   }, [isPlay]);
 
   const timeUpdate = (e) => {
+    const currentTime = e.target.currentTime * 1000;
     if (!isChanging) {
-      const currentTime = e.target.currentTime;
-      const res = formatDate(currentTime * 1000, "mm:ss");
-      console.log("res", res);
+      const res = formatDate(currentTime, "mm:ss");
+
       setCurrentTime(res);
-      const progress = ((currentTime * 1000) / dt) * 100;
+      const progress = (currentTime / dt) * 100;
       setProgress(progress);
+    }
+    let i = 0;
+    for (const item of lyricList) {
+      if (currentTime < item.time) {
+        // console.log(lyricList[i - 1].content);
+
+        if (i !== lyricIndex + 1) {
+          // console.log("i", i);
+          // console.log("lyricIndex", lyricIndex);
+          message.open({
+            content: lyricList[i - 1].content,
+            key: "lyric",
+            duration: 0,
+            className: "lyric-class",
+          });
+          dispatch(changeLyricIndex(i - 1));
+        }
+
+        break;
+      }
+      i++;
     }
 
     // console.log("timeUpdate", current);
@@ -123,70 +149,76 @@ export default memo(function PlayerBar() {
   };
 
   return (
-    <PlayerBarWrapper className="sprite_player">
-      <div className="content wrap-v2">
-        <PlayerLeftWrapper isPlay={isPlay}>
-          <button
-            className="sprite_player btn prev"
-            onClick={(e) => changeMusic(-1)}
-          ></button>
-          <button
-            className="sprite_player btn play"
-            onClick={playMusic}
-          ></button>
-          <button
-            className="sprite_player btn next"
-            onClick={(e) => changeMusic(1)}
-          ></button>
-        </PlayerLeftWrapper>
-        <PlayerContentWrapper>
-          <div className="image">
-            <NavLink to="/discover/song">
-              {" "}
-              <img src={getSizeImage(picUrl, 35)} />
-            </NavLink>
-          </div>
-          <div className="info">
-            <div className="song">
-              <div className="song-name">{ar[0]?.name}</div>
-              <div className="singer-name">{name}</div>
+    <>
+      <PlayerBarWrapper className="sprite_player">
+        <div className="content wrap-v2">
+          <PlayerLeftWrapper isPlay={isPlay}>
+            <button
+              className="sprite_player btn prev"
+              onClick={(e) => changeMusic(-1)}
+            ></button>
+            <button
+              className="sprite_player btn play"
+              onClick={playMusic}
+            ></button>
+            <button
+              className="sprite_player btn next"
+              onClick={(e) => changeMusic(1)}
+            ></button>
+          </PlayerLeftWrapper>
+          <PlayerContentWrapper>
+            <div className="image">
+              <NavLink to="/discover/song">
+                {" "}
+                <img src={getSizeImage(picUrl, 35)} />
+              </NavLink>
             </div>
-            <div className="progress">
-              <Slider
-                onChange={sliderChange}
-                onAfterChange={sliderAfterChange}
-                value={progress}
-              />
-              <div className="time">
-                <div className="now-time">{currentTime}</div>
-                <div className="divider">/</div>
-                <div className="total-time">{durationTime}</div>
+            <div className="info">
+              <div className="song">
+                <div className="song-name">{ar[0]?.name}</div>
+                <div className="singer-name">{name}</div>
+              </div>
+              <div className="progress">
+                <Slider
+                  onChange={sliderChange}
+                  onAfterChange={sliderAfterChange}
+                  value={progress}
+                />
+                <div className="time">
+                  <div className="now-time">{currentTime}</div>
+                  <div className="divider">/</div>
+                  <div className="total-time">{durationTime}</div>
+                </div>
               </div>
             </div>
-          </div>
-        </PlayerContentWrapper>
-        <PlayerRightWrapper sequence={sequence}>
-          <div className="left">
-            <button className="sprite_player btn favor"></button>
-            <button className="sprite_player btn share"></button>
-          </div>
-          <div className="right">
-            <button className="sprite_player btn volume"></button>
-            <button
-              className="sprite_player btn loop"
-              onClick={(e) => handleLoop()}
-            ></button>
-            <button className="sprite_player btn playlist">
-              {playList.length}
-            </button>
-          </div>
-        </PlayerRightWrapper>
-      </div>
-      <audio
-        ref={audioRef}
-        onTimeUpdate={timeUpdate}
-        onEnded={handleMusicEnded}
-      ></audio>
-    </PlayerBarWrapper>
+          </PlayerContentWrapper>
+          <PlayerRightWrapper sequence={sequence}>
+            <div className="left">
+              <button className="sprite_player btn favor"></button>
+              <button className="sprite_player btn share"></button>
+            </div>
+            <div className="right">
+              <button className="sprite_player btn volume"></button>
+              <button
+                className="sprite_player btn loop"
+                onClick={(e) => handleLoop()}
+              ></button>
+              <button
+                className="sprite_player btn playlist"
+                onClick={() => setShowPlayList((flag) => !flag)}
+              >
+                {playList.length}
+              </button>
+            </div>
+          </PlayerRightWrapper>
+        </div>
+        <audio
+          ref={audioRef}
+          onTimeUpdate={timeUpdate}
+          onEnded={handleMusicEnded}
+        ></audio>
+      </PlayerBarWrapper>
+      {showPlayList && <PlayerList />}
+    </>
   );
 });

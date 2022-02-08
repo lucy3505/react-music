@@ -25,7 +25,6 @@ export default memo(function TopBanner() {
   }, [dispatch]);
 
   const handleChange = useCallback((from, to) => {
-    console.log(to);
     setCurrentIndex(to);
   }, []);
 

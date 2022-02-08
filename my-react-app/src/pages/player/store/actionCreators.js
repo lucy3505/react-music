@@ -1,11 +1,15 @@
 import { getSongDetail } from "@/services/player";
 import { getRandomNumber } from "@/utils/format-utils";
+import { getLyric } from "@/services/player";
 import {
   CHANGE_SONG_DETAIL,
   CHANGE_CURRENT_INDEX,
   CHANG_PLAY_LIST,
   CHANGE_SEQUENCE,
+  CHANGE_LYRIC_LIST,
+  CHANGE_LYRIC_INDEX,
 } from "./constants";
+import { parseLyric } from "../../../utils/lrc-parse";
 
 const changeSongDetail = (song) => {
   return { type: CHANGE_SONG_DETAIL, song };
@@ -30,8 +34,8 @@ export const changeCurrentIndexAndSong = (tag) => (dispatch, getState) => {
       while (currentSongIndex === randomIndex || randomIndex === -1) {
         randomIndex = getRandomNumber(playList.length);
       }
-      dispatch(changeCurrentIndex(randomIndex));
-      dispatch(changeSongDetail(playList[randomIndex]));
+      currentSongIndex = randomIndex;
+
       break;
 
     default:
@@ -40,11 +44,10 @@ export const changeCurrentIndexAndSong = (tag) => (dispatch, getState) => {
       if (currentSongIndex > playList.length - 1) currentSongIndex = 0;
       if (currentSongIndex < 0) currentSongIndex = playList.length - 1;
 
-      dispatch(changeCurrentIndex(currentSongIndex));
-      dispatch(changeSongDetail(playList[currentSongIndex]));
-
       break;
   }
+  dispatch(changeCurrentIndex(currentSongIndex));
+  dispatch(changeSongDetail(playList[currentSongIndex]));
 };
 
 export const getSongDetailAction = (id) => async (dispatch, getState) => {
@@ -55,17 +58,36 @@ export const getSongDetailAction = (id) => async (dispatch, getState) => {
     //歌单里已经有了
     dispatch(changeCurrentIndex(hasIndex));
     dispatch(changeSongDetail(playList[hasIndex]));
+    dispatch(getLyricAction(playList[hasIndex].id));
   } else {
     //歌单里没有这首歌
     const res = await getSongDetail(id);
-    const newPlayList = [...playList, res.songs[0]];
-    dispatch(changeSongDetail(res.songs[0]));
+    const song = res.songs && res.songs[0];
+    if (!song) return;
+    const newPlayList = [...playList, song];
+    dispatch(changeSongDetail(song));
     dispatch(changeCurrentIndex(playList.length));
     dispatch(changePlayList(newPlayList));
+    dispatch(getLyricAction(song.id));
   }
 };
 
 export const changeSequenceAction = (sequence) => ({
   type: CHANGE_SEQUENCE,
   sequence,
+});
+
+const changeLyric = (lrc) => ({ type: CHANGE_LYRIC_LIST, lrc });
+
+export const getLyricAction = (id) => async (dispatch) => {
+  const res = await getLyric(id);
+  if (!res.lrc?.lyric) return;
+  const lrc = res.lrc && parseLyric(res.lrc.lyric);
+
+  dispatch(changeLyric(lrc || []));
+};
+
+export const changeLyricIndex = (index) => ({
+  type: CHANGE_LYRIC_INDEX,
+  index,
 });

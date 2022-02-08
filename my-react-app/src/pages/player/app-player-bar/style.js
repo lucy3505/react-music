@@ -5,7 +5,7 @@ export const PlayerBarWrapper = styled.div`
   position: fixed;
   width: 100%;
   bottom: 0;
-
+  z-index: 999;
   background-position: 0 0;
   background-repeat: repeat;
   .content {
@@ -19,6 +19,7 @@ export const PlayerLeftWrapper = styled.div`
   display: flex;
   align-items: center;
   .btn {
+    cursor: pointer;
   }
   .prev {
     background-position: 0 -130px;

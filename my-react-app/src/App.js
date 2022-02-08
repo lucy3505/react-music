@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, Suspense } from "react";
 import { renderRoutes } from "react-router-config";
 
 import routes from "./router";
@@ -15,7 +15,9 @@ export default memo(function App() {
     <Provider store={store}>
       <HashRouter>
         <YYAppHeader />
-        {renderRoutes(routes)}
+        <Suspense fallback={<div>page loading</div>}>
+          {renderRoutes(routes)}
+        </Suspense>
 
         <YYAppFooter />
         <PlayerBar />

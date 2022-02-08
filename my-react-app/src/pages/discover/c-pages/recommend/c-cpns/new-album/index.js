@@ -14,7 +14,6 @@ export default memo(function RecomendAlbum() {
     }),
     shallowEqual
   );
-  console.log("newAlbums", newAlbums);
 
   useEffect(() => {
     dispatch(getNewAlbumAction(10));

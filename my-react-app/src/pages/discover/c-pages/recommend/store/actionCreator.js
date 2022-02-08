@@ -5,6 +5,7 @@ import {
   getAllTopLists,
   getTopListById,
 } from "@/services/recommend";
+import { changeCurrentRanking } from "../../ranking/store/actionCreator";
 
 import {
   CHANGE_TOP_BANNER,
@@ -37,7 +38,7 @@ const changeNewAlbumAction = (res) => {
   };
 };
 
-const changeAllTopListsAction = (res) => {
+export const changeAllTopListsAction = (res) => {
   return {
     type: CHANGE_All_TOP_LISTS,
     allTopLists: res.list,
@@ -80,8 +81,8 @@ export const getNewAlbumAction = (limit) => async (dispatch) => {
   dispatch(changeNewAlbumAction(res));
 };
 
-export const getAllTopListsAction = (id) => async (dispatch) => {
-  const res = await getAllTopLists(id);
+export const getAllTopListsAction = () => async (dispatch) => {
+  const res = await getAllTopLists();
   dispatch(changeAllTopListsAction(res));
 };
 
