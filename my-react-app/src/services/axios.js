@@ -1,11 +1,12 @@
 import originAxios from "axios";
-
+import { BASE_URL } from "./config";
 export default function request(option) {
   return new Promise((resolve, reject) => {
     // 1.创建axios的实例
     const instance = originAxios.create({
       // baseURL: "http://123.207.32.32:9001/",
-      baseURL: "http://127.0.0.1:3000/",
+      baseURL: BASE_URL,
+      // baseURL: "http://127.0.0.1:8080/",
       timeout: 10000,
     });
 
