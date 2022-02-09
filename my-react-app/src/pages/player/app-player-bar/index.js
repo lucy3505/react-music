@@ -175,7 +175,7 @@ export default memo(function PlayerBar() {
             </div>
             <div className="info">
               <div className="song">
-                <div className="song-name">{ar[0]?.name}</div>
+                <div className="song-name">{ar[0]?.name}222</div>
                 <div className="singer-name">{name}</div>
               </div>
               <div className="progress">
