@@ -13,10 +13,7 @@ export default memo(function DifferentRanking() {
   useEffect(() => {
     console.log(allTopLists);
 
-    if (allTopLists.length === 0) {
-      dispatch(getAllTopListsFromRank());
-    } else {
-    }
+    dispatch(getAllTopListsFromRank());
   }, [allTopLists, dispatch]);
 
   return (
