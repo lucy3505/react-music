@@ -14,13 +14,13 @@ export default memo(function App() {
   return (
     <Provider store={store}>
       <HashRouter>
-        <YYAppHeader />
+        {/* <YYAppHeader /> */}
         <Suspense fallback={<div>page loading</div>}>
           {renderRoutes(routes)}
         </Suspense>
 
-        <YYAppFooter />
-        <PlayerBar />
+        {/* <YYAppFooter /> */}
+        {/* <PlayerBar /> */}
       </HashRouter>
     </Provider>
   );

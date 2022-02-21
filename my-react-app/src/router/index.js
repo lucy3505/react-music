@@ -24,12 +24,14 @@ const DJ = React.lazy((_) => import("@/pages/discover/c-pages/djradio"));
 const Artist = React.lazy((_) => import("@/pages/discover/c-pages/artist"));
 const Album = lazy((_) => import("@/pages/discover/c-pages/album"));
 const Song = lazy((_) => import("@/pages/player"));
+const Letter = lazy((_) => import("@/pages/letter"));
+const Login = lazy((_) => import("@/pages/login"));
 
 const routes = [
   {
     path: "/",
     exact: true,
-    render: () => <Redirect to="/discover" />,
+    render: () => <Redirect to="/login" />,
   },
   {
     path: "/discover",
@@ -79,6 +81,14 @@ const routes = [
   {
     path: "/friend",
     component: YYFriend,
+  },
+  {
+    path: "/letter",
+    component: Letter,
+  },
+  {
+    path: "/login",
+    component: Login,
   },
 ];
 
